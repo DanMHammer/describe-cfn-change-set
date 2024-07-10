@@ -2,8 +2,8 @@
 
 uuid="a$(cat /proc/sys/kernel/random/uuid)"
 
-if [ "$INPUT_URL" ]; then
-  aws cloudformation create-change-set --stack-name $INPUT_STACK_NAME --template-url $INPUT_URL --change-set-name=$uuid
+if [ "$INPUT_TEMPLATE_URL" ]; then
+  aws cloudformation create-change-set --stack-name $INPUT_STACK_NAME --template-url $INPUT_TEMPLATE_URL --change-set-name=$uuid
 else 
   aws cloudformation create-change-set --stack-name $INPUT_STACK_NAME --template-body file://$INPUT_TEMPLATE_BODY --change-set-name=$uuid
 fi

@@ -11,7 +11,7 @@ inputs:
   template_body:
     description: 'cfn template file name'
     required: false
-  url:
+  template_url:
     description: 'url of template file'
     required: false
 outputs:
