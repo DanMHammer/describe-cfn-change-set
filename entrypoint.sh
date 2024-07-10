@@ -3,9 +3,17 @@
 uuid="a$(cat /proc/sys/kernel/random/uuid)"
 
 if [ -n "$INPUT_TEMPLATE_URL" ]; then
-  aws cloudformation create-change-set --stack-name $INPUT_STACK_NAME --template-url $INPUT_TEMPLATE_URL --change-set-name=$uuid
+  if [-n "$CAPABILITIES"]; then
+    aws cloudformation create-change-set --stack-name $INPUT_STACK_NAME --template-url $INPUT_TEMPLATE_URL --change-set-name=$uuid --capabilities $CAPABILITIES
+  else
+    aws cloudformation create-change-set --stack-name $INPUT_STACK_NAME --template-url $INPUT_TEMPLATE_URL --change-set-name=$uuid
+  fi
 else 
-  aws cloudformation create-change-set --stack-name $INPUT_STACK_NAME --template-body file://$INPUT_TEMPLATE_BODY --change-set-name=$uuid
+  if [-n "$CAPABILITIES"]; then
+    aws cloudformation create-change-set --stack-name $INPUT_STACK_NAME --template-body file://$INPUT_TEMPLATE_BODY --change-set-name=$uuid --capabilities $CAPABILITIES
+  else
+    aws cloudformation create-change-set --stack-name $INPUT_STACK_NAME --template-body file://$INPUT_TEMPLATE_BODY --change-set-name=$uuid
+  fi
 fi
 if [ $? -ne 0 ]; then
   echo "[ERROR] failed to create change set."

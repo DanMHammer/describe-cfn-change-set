@@ -14,6 +14,9 @@ inputs:
   template_url:
     description: 'url of template file'
     required: false
+  capabilities:
+    description: 'capabilities for create-change-set API'
+    required: false
 outputs:
   change_set_name:
     description: 'created change set name (uuid)'
