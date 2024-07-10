@@ -2,13 +2,8 @@
 
 uuid="a$(cat /proc/sys/kernel/random/uuid)"
 
-if [ "$INPUT_S3_BUCKET" ]; then
-  echo "Uploading template to S3 bucket..."
-  aws s3 cp $INPUT_TEMPLATE_BODY s3://$INPUT_S3_BUCKET/$uuid
-fi
-
-if [ "$INPUT_S3_BUCKET" ]; then
-  aws cloudformation create-change-set --stack-name $INPUT_STACK_NAME --template-url s3://$INPUT_S3_BUCKET/$uuid --change-set-name=$uuid
+if [ "$INPUT_URL" ]; then
+  aws cloudformation create-change-set --stack-name $INPUT_STACK_NAME --template-url $INPUT_URL --change-set-name=$uuid
 else 
   aws cloudformation create-change-set --stack-name $INPUT_STACK_NAME --template-body file://$INPUT_TEMPLATE_BODY --change-set-name=$uuid
 fi
@@ -27,10 +22,6 @@ for i in `seq 1 5`; do
     sleep 3
   fi
 done
-
-if ["$INPUT_S3_BUCKET" ]; then
-  aws s3 rm s3://$INPUT_S3_BUCKET/$uuid
-fi
 
 aws cloudformation delete-change-set --change-set-name=$uuid --stack-name=$INPUT_STACK_NAME
 if [ $? -ne 0 ]; then
