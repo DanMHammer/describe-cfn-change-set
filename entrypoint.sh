@@ -3,14 +3,14 @@
 uuid="a$(cat /proc/sys/kernel/random/uuid)"
 
 if [ -n "$INPUT_TEMPLATE_URL" ]; then
-  if [-n "$CAPABILITIES"]; then
-    aws cloudformation create-change-set --stack-name $INPUT_STACK_NAME --template-url $INPUT_TEMPLATE_URL --change-set-name=$uuid --capabilities $CAPABILITIES
+  if [-n "$INPUT_CAPABILITIES"]; then
+    aws cloudformation create-change-set --stack-name $INPUT_STACK_NAME --template-url $INPUT_TEMPLATE_URL --change-set-name=$uuid --capabilities $INPUT_CAPABILITIES
   else
     aws cloudformation create-change-set --stack-name $INPUT_STACK_NAME --template-url $INPUT_TEMPLATE_URL --change-set-name=$uuid
   fi
 else 
-  if [-n "$CAPABILITIES"]; then
-    aws cloudformation create-change-set --stack-name $INPUT_STACK_NAME --template-body file://$INPUT_TEMPLATE_BODY --change-set-name=$uuid --capabilities $CAPABILITIES
+  if [-n "$INPUT_CAPABILITIES"]; then
+    aws cloudformation create-change-set --stack-name $INPUT_STACK_NAME --template-body file://$INPUT_TEMPLATE_BODY --change-set-name=$uuid --capabilities $INPUT_CAPABILITIES
   else
     aws cloudformation create-change-set --stack-name $INPUT_STACK_NAME --template-body file://$INPUT_TEMPLATE_BODY --change-set-name=$uuid
   fi
