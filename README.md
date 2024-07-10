@@ -98,6 +98,34 @@ This action requires the following minimum set of permissions:
 }
 ```
 
+To upload larger templates to s3 first
+```json
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "VisualEditor0",
+            "Effect": "Allow",
+            "Action": [
+                "cloudformation:CreateChangeSet",
+                "cloudformation:DescribeChangeSet",
+                "cloudformation:DeleteChangeSet"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "VisualEditor0",
+            "Effect": "Allow",
+            "Action": [
+                "s3:PutObject",
+                "s3:DeleteObject",
+            ],
+            "Resource": "arn:aws:s3:::bucket-name/*"
+        }
+    ]
+}
+```
+
 The Action calls `create-change-set` api with random uuid as change set name first, then `describe-change-set`.<br>
 After writing output to file, remove temporary change set by `delete-change-set`.<br>
 **Note.** do not restrict change-set-name in `Resource` condition because change-set-name is random.<br>

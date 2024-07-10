@@ -11,6 +11,9 @@ inputs:
   template_body:
     description: 'cfn template file name'
     required: true
+  upload_bucket:
+    description: 's3 bucket name to upload template'
+    required: false
 outputs:
   change_set_name:
     description: 'created change set name (uuid)'
