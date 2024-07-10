@@ -20,14 +20,14 @@ if [ $? -ne 0 ]; then
   exit 1
 fi
 
-for i in `seq 1 5`; do
+for i in `seq 1 10`; do
   aws cloudformation describe-change-set --change-set-name=$uuid --stack-name=$INPUT_STACK_NAME --output=json > $uuid.json 
   status=$(cat $uuid.json | jq -r '.Status')
   if [ ${status} = "CREATE_COMPLETE" ] || [ ${status} = "FAILED" ]; then    
     break
   else
     echo "change set is now creating..."
-    sleep 3
+    sleep 60
   fi
 done
 
